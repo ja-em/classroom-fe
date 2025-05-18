@@ -1,3 +1,4 @@
+import { IPaginationResponse } from "../interface";
 import { StudentClassroomObject } from "./student-classroom";
 
 export interface ClassroomObject {
@@ -11,3 +12,5 @@ export interface ClassroomObject {
 
   student_classroom?: StudentClassroomObject[];
 }
+
+export type ClassroomPaginationObject = IPaginationResponse<ClassroomObject>;

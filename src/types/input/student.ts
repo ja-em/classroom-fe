@@ -1,8 +1,6 @@
 import { PaginationInput } from "./pagination";
 
 export interface GetAllStudentInput extends PaginationInput {
-  keyword?: string;
-
   gradlevelId?: number;
 }
 

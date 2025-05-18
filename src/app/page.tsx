@@ -1,45 +1,20 @@
 import { MenuLink } from "@/types/menu";
-import MainLayout from "../components/main-layout";
+import MainLayout from "@/components/main-layout";
+import { Suspense } from "react";
+import { ClassroomLayout } from "@/components/layout/classroom/classroom-layout";
+import { GetAllClassroomInput } from "@/types/input";
 
-export default function Index() {
+export default async function Index({
+  searchParams,
+}: {
+  searchParams: Promise<Partial<Record<keyof GetAllClassroomInput, string>>>;
+}) {
+  const search = await searchParams;
   return (
     <MainLayout active={MenuLink.Classroom}>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* row 1 */}
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-            {/* row 2 */}
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            {/* row 3 */}
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <Suspense fallback={<ClassroomLayout.Loading />}>
+        <ClassroomLayout searchParams={search} />
+      </Suspense>
     </MainLayout>
   );
 }

@@ -1,7 +1,8 @@
-import { AddStudentLayout } from '@/components/layout/student/add-student-layout';
-import MainLayout from '@/components/main-layout';
-import { MenuLink } from '@/types/menu';
-import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md';
+import { AddStudentLayout } from "@/components/layout/student/add-student-layout";
+import MainLayout from "@/components/main-layout";
+import { MenuLink } from "@/types/menu";
+import { Suspense } from "react";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 
 export default async function CreateStudentPage() {
   return (
@@ -16,7 +17,9 @@ export default async function CreateStudentPage() {
       }
       hideSearch
     >
-      <AddStudentLayout />
+      <Suspense fallback={<div>Loading...</div>}>
+        <AddStudentLayout />
+      </Suspense>
     </MainLayout>
   );
 }

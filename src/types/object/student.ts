@@ -28,5 +28,4 @@ export interface StudentObject {
   student_classroom?: StudentClassroomObject[];
 }
 
-export type StudentPaginationObject =
-  IPaginationResponse<StudentClassroomObject>;
+export type StudentPaginationObject = IPaginationResponse<StudentObject>;

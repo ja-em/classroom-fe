@@ -1,17 +1,16 @@
-'use server';
+"use server";
 
-import { graphqlRequest } from '@/libs/graphql-request';
-import { MenuLink } from '@/types/menu';
+import { graphqlRequest } from "@/libs/graphql-request";
 import {
   CreateStudentInput,
   GetAllStudentInput,
-  StudentObject,
-  StudentPaginationObject,
   UpdateStudentInput,
-} from '@classroom-management/shared-type';
+} from "@/types/input";
+import { MenuLink } from "@/types/menu";
+import { StudentObject, StudentPaginationObject } from "@/types/object";
 
-import { gql } from 'graphql-request';
-import { revalidatePath } from 'next/cache';
+import { gql } from "graphql-request";
+import { revalidatePath } from "next/cache";
 
 const ALL_STUDENT_QUERY = gql`
   query GetStudents($input: GetAllStudentInput) {

@@ -1,6 +1,6 @@
-import { graphqlRequest } from '@/libs/graphql-request';
-import { GenderObject } from '@classroom-management/shared-type';
-import { gql } from 'graphql-request';
+import { graphqlRequest } from "@/libs/graphql-request";
+import { GenderObject } from "@/types/object";
+import { gql } from "graphql-request";
 
 const ALL_GENDER_QUERY = gql`
   query GetAllGender {

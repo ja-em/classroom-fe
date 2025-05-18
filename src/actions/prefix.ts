@@ -1,6 +1,6 @@
-import { graphqlRequest } from '@/libs/graphql-request';
-import { PrefixObject } from '@classroom-management/shared-type';
-import { gql } from 'graphql-request';
+import { graphqlRequest } from "@/libs/graphql-request";
+import { PrefixObject } from "@/types/object";
+import { gql } from "graphql-request";
 
 const ALL_PREFIX_QUERY = gql`
   query GetAllPrefix {

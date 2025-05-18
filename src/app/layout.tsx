@@ -1,4 +1,4 @@
-import "./global.css";
+import "./globals.css";
 import { ToastContainer } from "react-toastify";
 
 export const metadata = {

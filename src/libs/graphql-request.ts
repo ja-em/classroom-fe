@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { ClientError, GraphQLClient, Variables } from 'graphql-request';
+import { ClientError, GraphQLClient, Variables } from "graphql-request";
 
 let grapQLClient: GraphQLClient;
 const getClient = async () => {
@@ -8,14 +8,26 @@ const getClient = async () => {
     return grapQLClient;
   }
 
-  grapQLClient = new GraphQLClient(process.env['GRAPQL_ENDPOINT'] ?? '');
+  grapQLClient = new GraphQLClient(process.env["GRAPQL_ENDPOINT"] ?? "");
   return grapQLClient;
 };
+
+export type IGraphqlResponse<T = any> =
+  | {
+      ok: true;
+      data: T;
+      error: null;
+    }
+  | {
+      ok: false;
+      data: null;
+      error: any;
+    };
 
 export async function graphqlRequest<TRes>(
   query: string,
   variable?: Variables
-) {
+): Promise<IGraphqlResponse<TRes>> {
   try {
     const client = await getClient();
     const response = await client.request<TRes>(query, {

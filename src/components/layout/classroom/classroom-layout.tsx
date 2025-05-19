@@ -3,6 +3,7 @@ import { TableWrapper } from "../../table/table-wrapper";
 import { MenuLink } from "@/types/menu";
 import { getAllClassroomAction } from "@/actions/classroom";
 import { GetAllClassroomInput } from "@/types/input";
+import { DeleteClassroomButton } from "./delete-classroom";
 
 export async function ClassroomLayout({
   searchParams,
@@ -19,7 +20,10 @@ export async function ClassroomLayout({
     <TableWrapper pagination={res}>
       <TableWrapper.RightArea>
         <div className="flex space-x-2">
-          <Link href={`${MenuLink.Classroom}/add`} className="btn btn-success">
+          <Link
+            href={`${MenuLink.Classroom}create`}
+            className="btn btn-success"
+          >
             Add Classroom
           </Link>
         </div>
@@ -43,7 +47,21 @@ export async function ClassroomLayout({
               <td>{item.classname}</td>
               <td>{item.academic_year}</td>
               <td>{item.homeroom_teacher}</td>
-              <td></td>
+              <td className="flex justify-end space-x-2">
+                <Link
+                  className="btn btn-primary btn-xs"
+                  href={`${MenuLink.Classroom}${item.classroomid}/classroom-student`}
+                >
+                  Student
+                </Link>
+                <Link
+                  className="btn btn-warning btn-xs"
+                  href={`${MenuLink.Classroom}${item.classroomid}/update`}
+                >
+                  Edit
+                </Link>
+                <DeleteClassroomButton item={item} />
+              </td>
             </tr>
           );
         })}

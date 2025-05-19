@@ -1,8 +1,14 @@
 "use server";
 
 import { graphqlRequest } from "@/libs/graphql-request";
-import { StudentClassroomPaginationObject } from "@/types/object";
+import { CreateStudentClassroomInput } from "@/types/input";
+import { MenuLink } from "@/types/menu";
+import {
+  StudentClassroomObject,
+  StudentClassroomPaginationObject,
+} from "@/types/object";
 import { gql } from "graphql-request";
+import { revalidatePath } from "next/cache";
 
 const GET_STUDENT_CLASSROOM_QUERY = gql`
   query GetStudentClassroomByClassroomId($classroomId: Int!) {
@@ -50,6 +56,55 @@ export const getStudentClassroomByClassroomIdAction = async (
     getStudentClassroomByClassroomId: StudentClassroomPaginationObject;
   }>(GET_STUDENT_CLASSROOM_QUERY, {
     classroomId,
+  });
+  return res;
+};
+
+const CREATE_STUDENT_CLASSROOM_MUTATION = gql`
+  mutation CreateStudentClassroom($input: CreateStudentClassroomInput!) {
+    createStudentClassroom(input: $input) {
+      student_classroom_id
+    }
+  }
+`;
+
+export const createStudentClassroomAction = async (
+  input: CreateStudentClassroomInput
+) => {
+  const res = await graphqlRequest<{
+    createStudentClassroom: Pick<
+      StudentClassroomObject,
+      "student_classroom_id"
+    >;
+  }>(CREATE_STUDENT_CLASSROOM_MUTATION, {
+    input,
+  });
+  if (res.ok) {
+    revalidatePath(
+      `${MenuLink.Classroom}${input.classroomId}/student-classroom`
+    );
+  }
+  return res;
+};
+
+const REMOVE_STUDENT_CLASSROOM_MUTATION = gql`
+  mutation RemoveStudentClassroom($id: Int!) {
+    removeStudentClassroom(studentClassroomId: $id) {
+      student_classroom_id
+    }
+  }
+`;
+
+export const removeStudentClassroomAction = async (
+  studentClassroomId: number
+) => {
+  const res = await graphqlRequest<{
+    removeStudentClassroom: Pick<
+      StudentClassroomObject,
+      "student_classroom_id"
+    >;
+  }>(REMOVE_STUDENT_CLASSROOM_MUTATION, {
+    id: studentClassroomId,
   });
   return res;
 };

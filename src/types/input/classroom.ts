@@ -11,3 +11,8 @@ export interface CreateClassroomInput {
 export interface UpdateClassroomInput extends Partial<CreateClassroomInput> {
   classroomid: number;
 }
+
+export interface CreateStudentClassroomInput {
+  classroomId: number;
+  studentId: number;
+}

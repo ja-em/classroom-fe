@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { ConfirmDialog } from "@/components/dialog/confirm-dialog";
-import { deleteStudentAction } from "@/actions/student";
 import { toast } from "react-toastify";
 import { StudentObject } from "@/types/object";
+import { createStudentClassroomAction } from "@/actions/student-classroom";
+import { useRouter } from "next/navigation";
+import { MenuLink } from "@/types/menu";
 
 export const AddStudentClassroomButton = ({
   item,
@@ -15,14 +17,19 @@ export const AddStudentClassroomButton = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const name = `${item.prefix?.prefixname} ${item.firstname} ${item.lastname}`;
   const onAddStudentClassroom = async () => {
     setLoading(true);
-    const res = await deleteStudentAction(item.studentid);
+    const res = await createStudentClassroomAction({
+      classroomId,
+      studentId: item.studentid,
+    });
     setLoading(false);
     if (res.ok) {
       setOpen(false);
-      toast.success("Delete success");
+      toast.success("Add success");
+      router.push(`${MenuLink.Classroom}${classroomId}/student-classroom`);
     } else {
       toast.error(res.error);
     }

@@ -50,9 +50,9 @@ export async function ClassroomLayout({
               <td className="flex justify-end space-x-2">
                 <Link
                   className="btn btn-primary btn-xs"
-                  href={`${MenuLink.Classroom}${item.classroomid}/classroom-student`}
+                  href={`${MenuLink.Classroom}${item.classroomid}/student-classroom`}
                 >
-                  Student
+                  Manage Student
                 </Link>
                 <Link
                   className="btn btn-warning btn-xs"

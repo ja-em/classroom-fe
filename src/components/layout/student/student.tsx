@@ -7,11 +7,17 @@ import { IStudentPageSearchParams } from "@/app/student/page";
 import { SelectGradeWrapper } from "./select-grade-wrapper";
 import { Suspense } from "react";
 import { GetAllStudentInput } from "@/types/input";
+import { StudentObject } from "@/types/object";
+import { AddStudentClassroomButton } from "../student-classroom/add-student-classroom-button";
 
 export async function StudentLayout({
   searchParams,
+  classroomId,
+  atStudentClassroomPage,
 }: {
   searchParams: IStudentPageSearchParams;
+  atStudentClassroomPage?: boolean;
+  classroomId?: number;
 }) {
   const { page, limit, keyword, gradlevelId } = searchParams;
   const filter: GetAllStudentInput = {
@@ -22,17 +28,51 @@ export async function StudentLayout({
   };
 
   const res = await getAllStudentAction(filter);
+
+  const renderActionColumn = (item: StudentObject) => {
+    if (atStudentClassroomPage) {
+      const isInclude = (item?.student_classroom ?? []).some(
+        (e) => e.classroomid === classroomId
+      );
+      if (isInclude) {
+        return (
+          <button disabled className="btn btn-success btn-xs">
+            Already in this classroom
+          </button>
+        );
+      }
+      return (
+        <AddStudentClassroomButton item={item} classroomId={classroomId ?? 0} />
+      );
+    }
+    return (
+      <>
+        <Link
+          className="btn btn-warning btn-xs"
+          href={`${MenuLink.Student}/${item.studentid}/update`}
+        >
+          Edit
+        </Link>
+        <DeleteStudentButton item={item} />
+      </>
+    );
+  };
   return (
     <TableWrapper pagination={res}>
       <TableWrapper.RightArea>
-        <div className="flex space-x-2">
-          <Link href={`${MenuLink.Student}/create`} className="btn btn-success">
-            Add Student
-          </Link>
-          <Suspense fallback={<div className="skeleton h-4 w-20"></div>}>
-            <SelectGradeWrapper />
-          </Suspense>
-        </div>
+        {!atStudentClassroomPage && (
+          <div className="flex space-x-2">
+            <Link
+              href={`${MenuLink.Student}/create`}
+              className="btn btn-success"
+            >
+              Add Student
+            </Link>
+            <Suspense fallback={<div className="skeleton h-4 w-20"></div>}>
+              <SelectGradeWrapper />
+            </Suspense>
+          </div>
+        )}
       </TableWrapper.RightArea>
       {/* head */}
       <thead>
@@ -60,13 +100,7 @@ export async function StudentLayout({
               <td>{item.gradelevel?.levelname}</td>
               <td>{item.birthdate.toString().split("T")[0]}</td>
               <td className="flex justify-end space-x-2">
-                <Link
-                  className="btn btn-warning btn-xs"
-                  href={`${MenuLink.Student}/${item.studentid}/update`}
-                >
-                  Edit
-                </Link>
-                <DeleteStudentButton item={item} />
+                {renderActionColumn(item)}
               </td>
             </tr>
           );

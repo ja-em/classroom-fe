@@ -41,6 +41,11 @@ const ALL_STUDENT_QUERY = gql`
           gradelevelid
           levelname
         }
+        student_classroom {
+          studentid
+          classroomid
+          student_classroom_id
+        }
       }
     }
   }

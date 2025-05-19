@@ -1,8 +1,8 @@
-import { MenuItems, MenuLink } from '@/types/menu';
-import Link from 'next/link';
-import { clsx } from 'clsx';
-import { SearchInput } from './input/search-input';
-import { Suspense } from 'react';
+import { MenuItems, MenuLink } from "@/types/menu";
+import Link from "next/link";
+import { clsx } from "clsx";
+import { SearchInput } from "./input/search-input";
+import { Suspense } from "react";
 
 export default function MainLayout({
   children,
@@ -17,7 +17,7 @@ export default function MainLayout({
 }) {
   const renderTitle = () => {
     if (title) return title;
-    return MenuItems[active].title ?? 'Classroom';
+    return MenuItems[active]?.title ?? "Classroom";
   };
   return (
     <div className="drawer lg:drawer-open min-h-screen">
@@ -72,14 +72,14 @@ export default function MainLayout({
 
               const target = MenuItems[keyKnown];
               return (
-                <li key={target.href}>
+                <li key={target?.href}>
                   <Link
-                    href={target.href}
-                    className={clsx('rounded-lg', {
-                      'menu-active': keyKnown === active,
+                    href={target?.href ?? ""}
+                    className={clsx("rounded-lg", {
+                      "menu-active": keyKnown === active,
                     })}
                   >
-                    {target.title ?? title}
+                    {target?.title ?? title}
                   </Link>
                 </li>
               );

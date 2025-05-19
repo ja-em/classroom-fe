@@ -4,14 +4,16 @@ import { useState } from "react";
 import { ConfirmDialog } from "@/components/dialog/confirm-dialog";
 import { toast } from "react-toastify";
 import { StudentObject } from "@/types/object";
-import { createStudentClassroomAction } from "@/actions/student-classroom";
+import { removeStudentClassroomAction } from "@/actions/student-classroom";
 
-export const AddStudentClassroomButton = ({
+export const DeleteStudentClassroomButton = ({
   item,
   classroomId,
+  studentClassroomId,
 }: {
   item: StudentObject;
   classroomId: number;
+  studentClassroomId: number;
 }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,30 +21,30 @@ export const AddStudentClassroomButton = ({
   const name = `${item.prefix?.prefixname} ${item.firstname} ${item.lastname}`;
   const onAddStudentClassroom = async () => {
     setLoading(true);
-    const res = await createStudentClassroomAction({
-      classroomId,
-      studentId: item.studentid,
-    });
+    const res = await removeStudentClassroomAction(
+      studentClassroomId,
+      classroomId
+    );
     setLoading(false);
     if (res.ok) {
       setOpen(false);
-      toast.success("Add success");
+      toast.success("Delete success");
     } else {
       toast.error(res.error);
     }
   };
   return (
     <>
-      <button className="btn btn-success btn-xs" onClick={() => setOpen(true)}>
-        Add to classroom
+      <button className="btn btn-error btn-xs" onClick={() => setOpen(true)}>
+        Delete from classroom
       </button>
       <ConfirmDialog
-        dialogId={"confirm-add" + "-" + item.studentid}
+        dialogId={"confirm-delete" + "-" + item.studentid}
         open={open}
         onOpenChange={(o) => setOpen(o)}
-        confirmLabel="Add"
-        dialogTitle="ยืนยันการเพิ่มนักเรียนเข้าห้องเรียน"
-        dialogDesc={`คุณแน่ใจหรือไม่ว่าต้องการเพิ่มนักเรียน ${name} เข้าห้องเลขที่ ${classroomId}`}
+        confirmLabel="Delete"
+        dialogTitle="ยืนยันการลบนักเรียนออกจากห้องเรียน"
+        dialogDesc={`คุณแน่ใจหรือไม่ว่าต้องการลบนักเรียน ${name} ออกจากห้องเลขที่ ${classroomId}`}
         loading={loading}
         onConfirm={onAddStudentClassroom}
       />

@@ -3,6 +3,7 @@ import { TableWrapper } from "../../table/table-wrapper";
 import { MenuLink } from "@/types/menu";
 import { getStudentClassroomByClassroomIdAction } from "@/actions/student-classroom";
 import { redirect } from "next/navigation";
+import { DeleteStudentClassroomButton } from "./delete-student-classroom-button";
 
 export async function StudentClassroomLayout({
   classroomId,
@@ -41,8 +42,9 @@ export async function StudentClassroomLayout({
 
       <tbody>
         {res.data.getStudentClassroomByClassroomId.items
-          .map((e) => e.student)
-          .map((item) => {
+          // .map((e) => e.student)
+          .map((obj) => {
+            const { student: item } = obj;
             return (
               <tr key={item.studentid}>
                 <th>{item.studentid}</th>
@@ -53,13 +55,11 @@ export async function StudentClassroomLayout({
                 <td>{item.gradelevel?.levelname}</td>
                 <td>{item.birthdate.toString().split("T")[0]}</td>
                 <td className="flex justify-end space-x-2">
-                  {/* <Link
-                  className="btn btn-warning btn-xs"
-                  href={`${MenuLink.Student}/${item.studentid}/update`}
-                >
-                  Edit
-                </Link>
-                <DeleteStudentButton item={item} /> */}
+                  <DeleteStudentClassroomButton
+                    item={item}
+                    classroomId={classroomId}
+                    studentClassroomId={obj.student_classroom_id}
+                  />
                 </td>
               </tr>
             );

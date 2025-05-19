@@ -83,6 +83,9 @@ export const createStudentClassroomAction = async (
     revalidatePath(
       `${MenuLink.Classroom}${input.classroomId}/student-classroom`
     );
+    revalidatePath(
+      `${MenuLink.Classroom}${input.classroomId}/student-classroom/add`
+    );
   }
   return res;
 };
@@ -96,7 +99,8 @@ const REMOVE_STUDENT_CLASSROOM_MUTATION = gql`
 `;
 
 export const removeStudentClassroomAction = async (
-  studentClassroomId: number
+  studentClassroomId: number,
+  classroomId: number
 ) => {
   const res = await graphqlRequest<{
     removeStudentClassroom: Pick<
@@ -106,5 +110,8 @@ export const removeStudentClassroomAction = async (
   }>(REMOVE_STUDENT_CLASSROOM_MUTATION, {
     id: studentClassroomId,
   });
+  if (res.ok) {
+    revalidatePath(`${MenuLink.Classroom}${classroomId}/student-classroom`);
+  }
   return res;
 };

@@ -60,19 +60,19 @@ export async function StudentLayout({
   return (
     <TableWrapper pagination={res}>
       <TableWrapper.RightArea>
-        {!atStudentClassroomPage && (
-          <div className="flex space-x-2">
+        <div className="flex space-x-2">
+          {!atStudentClassroomPage && (
             <Link
               href={`${MenuLink.Student}/create`}
               className="btn btn-success"
             >
               Add Student
             </Link>
-            <Suspense fallback={<div className="skeleton h-4 w-20"></div>}>
-              <SelectGradeWrapper />
-            </Suspense>
-          </div>
-        )}
+          )}
+          <Suspense fallback={<div className="skeleton h-4 w-20"></div>}>
+            <SelectGradeWrapper />
+          </Suspense>
+        </div>
       </TableWrapper.RightArea>
       {/* head */}
       <thead>

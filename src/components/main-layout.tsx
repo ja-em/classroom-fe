@@ -66,7 +66,7 @@ export default function MainLayout({
         <label htmlFor="sidebar-toggle" className="drawer-overlay"></label>
         <aside className="menu p-4 w-52 h-full bg-base-200 text-base-content">
           <h2 className="text-xl font-bold mb-4">Classroom</h2>
-          <ul className="menu">
+          <ul className="menu w-full">
             {Object.keys(MenuItems).map((key) => {
               const keyKnown = key as unknown as MenuLink;
 
@@ -75,7 +75,7 @@ export default function MainLayout({
                 <li key={target?.href}>
                   <Link
                     href={target?.href ?? ""}
-                    className={clsx("rounded-lg", {
+                    className={clsx("rounded-lg w-full", {
                       "menu-active": keyKnown === active,
                     })}
                   >
